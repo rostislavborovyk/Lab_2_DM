@@ -1,16 +1,22 @@
 from tkinter import *
+from random import randint, sample
+import networkx as nx
+import pylab as plt
 
 
 def window2():
-    pass
+    win2 = Toplevel(root)
+    win2.geometry('600x400')
 
 
 def window3():
-    pass
+    win3 = Toplevel(root)
+    win3.geometry('600x400')
 
 
 def window4():
-    pass
+    win4 = Toplevel(root)
+    win4.geometry('600x400')
 
 
 root = Tk()
