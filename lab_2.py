@@ -1,7 +1,10 @@
 from tkinter import *
 from random import randint, sample
 import networkx as nx
+import matplotlib.pyplot as plt
+from PIL import ImageTk, Image
 
+temp_relation = [('Ольга','Іван'), ('Тетяна', 'Світлана'), ('Ольга', 'Петро')]
 U = set()
 M = {"Володимир", "Віктор", "Кирило", "Вадим", "Михайло", "Петро", "Іван", "Олег"}
 W = {"Марія", "Анна", "Анастасія", "Ольга", "Тетяна", "Світлана", "Вікторія", "Оксана"}
@@ -10,7 +13,66 @@ B = set()
 R = set()
 S = set()
 
+# --------------------------Functions----------------------------------
 
+def universal(a, b):
+    a = list(a)
+    b = list(b)
+    k = 0
+    global U
+    while k <= 1:
+        if k == 1:
+            z = a
+            a = b
+            b = z
+        for i in a:
+            for j in b:
+                U.add((i, j))
+        k += 1
+    return U
+
+
+def take_from_women_box(index, ls_list):
+    global s
+    if s==0:
+        ls_list[1].insert(0,ls_list[0].get(index))
+    else:
+        ls_list[2].insert(0,ls_list[0].get(index))
+
+
+def create_relation_S(A, B):
+    global M, W
+    a = A
+    b = B
+    relation = []
+    for i in a:
+        for j in b:
+            if i in W:
+                relation.append((i, j))
+                break
+
+def nodes_to_graph(relation):
+    res = set()
+    for i in relation:
+        for j in i:
+            res.add(j)
+    return list(res)
+
+def graph(win3, panel):
+    path = r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.png'
+    relation = [('Ольга', 'Іван'), ('Тетяна', 'Світлана'), ('Ольга', 'Петро')]
+    G = nx.DiGraph()
+    G.add_nodes_from(nodes_to_graph(relation))
+    for i in relation:
+        G.add_edge(*i)
+    pos = nx.circular_layout(G)
+    nx.draw(G, pos, with_labels=True)
+    # plt.show()
+    plt.savefig(path)
+    img = ImageTk.PhotoImage(Image.open(path))
+    panel.configure(image=img)
+
+# ---------------------windows----------------------
 def window2():
     s=IntVar()
     global A,B
@@ -89,6 +151,22 @@ def window3():
     show_B.grid(row=1, column=1)
     calc_S_btn = Button(win3, text='Обрахувати відношення S')
     calc_S_btn.grid(row=2, column=0)
+    calc_R_btn = Button(win3, text='Обрахувати відношення R')
+    calc_R_btn.grid(row=2, column=1)
+    # path = r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.png'
+    # relation = [('Ольга', 'Іван'), ('Тетяна', 'Світлана'), ('Ольга', 'Петро')]
+    # G = nx.DiGraph()
+    # G.add_nodes_from(nodes_to_graph(relation))
+    # for i in relation:
+    #     G.add_edge(*i)
+    # pos = nx.circular_layout(G)
+    # nx.draw(G, pos, with_labels=True)
+    # # plt.show()
+    # plt.savefig(path)
+    # img = ImageTk.PhotoImage(Image.open(path))
+    # panel = Label(win3, image=img)
+    # panel.grid(row=4, column=4)
+
 
 def window4():
     win4 = Toplevel(root)
@@ -122,35 +200,5 @@ mainMenu.add_cascade(menu=win4, label='Вікно 4')
 win4.add_command(label='Відкрити', command=window4)
 
 root.mainloop()
-
-
-
-
-def universal(a, b):
-    a = list(a)
-    b = list(b)
-    k = 0
-    global U
-    while k <= 1:
-        if k == 1:
-            z = a
-            a = b
-            b = z
-        for i in a:
-            for j in b:
-                U.add((i, j))
-        k += 1
-    return U
-
-
-def take_from_women_box(index, ls_list):
-    global s
-    if s==0:
-        ls_list[1].insert(0,ls_list[0].get(index))
-    else:
-        ls_list[2].insert(0,ls_list[0].get(index))
-
-
-
 
 
