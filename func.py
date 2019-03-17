@@ -1,4 +1,4 @@
-U=set()
+U = set()
 
 
 def universal(a,b):
@@ -16,5 +16,6 @@ def universal(a,b):
                 U.add((i, j))
         k += 1
     return U
+
 
 
