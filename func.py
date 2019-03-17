@@ -5,7 +5,8 @@ A = set()
 B = set()
 R = set()
 S = set()
-s
+s=0
+
 
 def universal(a, b):
     a = list(a)
@@ -22,6 +23,14 @@ def universal(a, b):
                 U.add((i, j))
         k += 1
     return U
+
+
+def take_from_women_box(index, ls_list):
+    global s
+    if s==0:
+        ls_list[1].insert(0,ls_list[0].get(index))
+    else:
+        ls_list[2].insert(0,ls_list[0].get(index))
 
 
 
