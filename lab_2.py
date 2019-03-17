@@ -16,26 +16,34 @@ def window2():
     global A,B
     win2 = Toplevel(root)
     win2.geometry('600x400')
+    women_label=Label(win2,text="Список жінок")
+    women_label.grid(row=0,column=0,sticky="s")
     ls_box_women = Listbox(win2, width=15, height=12)
-    ls_box_women.grid(row=0, column=0,sticky="s")
+    ls_box_women.grid(row=1, column=0,sticky="s")
     for i in list(W):
         ls_box_women.insert(0, i)
+    men_label = Label(win2, text="Список чоловіків")
+    men_label.grid(row=0, column=1, sticky="s")
     ls_box_men= Listbox(win2, width=15, height=12)
-    ls_box_men.grid(row=0, column=2,sticky="s")
+    ls_box_men.grid(row=1, column=1,sticky="s")
     for i in list(M):
         ls_box_men.insert(0, i)
+    A_label=Label(win2,text="Множина А")
+    A_label.grid(row=0,column=3,sticky="s")
     ls_box_A=Listbox(win2,width=15,height=12)
-    ls_box_A.grid(row=0,column=3,sticky="s")
+    ls_box_A.grid(row=1,column=3,sticky="s")
     ls_box_B=Listbox(win2,width=15,height=12)
-    ls_box_B.grid(row=0,column=4,sticky="s")
+    ls_box_B.grid(row=1,column=4,sticky="s")
+    B_label = Label(win2, text="Множина B")
+    B_label.grid(row=0, column=4, sticky="s")
     radio_choose1=Radiobutton(win2,text="В нножину А",variable=s ,value=0)
-    radio_choose1.grid(row=0,column=1,sticky="s")
+    radio_choose1.grid(row=0,column=2,rowspan=2)
     radio_choose2=Radiobutton(win2,text="В множину В",variable=s ,value=1)
-    radio_choose2.grid(row=0,column=1)
+    radio_choose2.grid(row=0,column=2,rowspan=2,sticky="s")
     push_button_women=Button(win2,text="Перенести жіноче ім'я")
     push_button_women.grid(row=1,column=0,sticky="s")
     push_button_men = Button(win2, text="Перенести чоловыче ім'я")
-    push_button_men.grid(row=1, column=2, sticky="s")
+    push_button_men.grid(row=1, column=1, sticky="s")
 
 
     def take_from_women_box(index, ls_list):
@@ -115,14 +123,7 @@ win4.add_command(label='Відкрити', command=window4)
 
 root.mainloop()
 
-U = set()
-M = {"Володимир", "Віктор", "Кирило", "Вадим", "Михайло", "Петро", "Іван", "Олег"}
-W = {"Марія", "Анна", "Анастасія", "Ольга", "Тетяна", "Світлана", "Вікторія", "Оксана"}
-A = set()
-B = set()
-R = set()
-S = set()
-s=0
+
 
 
 def universal(a, b):
