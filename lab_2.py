@@ -1,21 +1,24 @@
 from tkinter import *
 from random import randint, sample
 import networkx as nx
-import pylab as plt
-import func
-Women = func.W
-Men = func.M
+import func as f
+
 
 
 def window2():
-    global Women
-
     win2 = Toplevel(root)
     win2.geometry('600x400')
-    ls_box_women = Listbox(win2, width=15, height=18)
-    ls_box_women.grid(row=0, column=0)
-    for i in list(Women):
+    ls_box_women = Listbox(win2, width=15, height=12)
+    ls_box_women.grid(row=0, column=0,sticky="s")
+    for i in list(f.W):
         ls_box_women.insert(0, i)
+    ls_box_men= Listbox(win2, width=15, height=12)
+    ls_box_men.grid(row=0, column=3,sticky="s")
+    for i in list(f.M):
+        ls_box_men.insert(0, i)
+    radio_choose1=RADIOBUTTON(win2,text="В нножину А",variable=f.s,value=f.s)
+    radio_choose.grid(row=0,column=1)
+
 
 
 def window3():

@@ -5,7 +5,7 @@ A = set()
 B = set()
 R = set()
 S = set()
-
+s
 
 def universal(a, b):
     a = list(a)
