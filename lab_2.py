@@ -22,6 +22,14 @@ def window4():
 root = Tk()
 # root.geometry('600x400')
 
+l1 = Label(root, text="Моя група: ІО -", font=("Arial", 20))
+l1.grid(row=0, sticky=W)
+l2 = Label(root, text="Мій номер у групі:", font=("Arial", 20))
+l2.grid(row=1, sticky=W)
+l3 = Label(root, text="Мій варіант:", font=("Arial", 20))
+l3.grid(row=2, sticky=W)
+
+
 mainMenu = Menu(root)
 root.config(menu=mainMenu)
 
