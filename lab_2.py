@@ -2,11 +2,20 @@ from tkinter import *
 from random import randint, sample
 import networkx as nx
 import pylab as plt
+import func
+Women = func.W
+Men = func.M
 
 
 def window2():
+    global Women
+
     win2 = Toplevel(root)
     win2.geometry('600x400')
+    ls_box_women = Listbox(win2, width=15, height=18)
+    ls_box_women.grid(row=0, column=0)
+    for i in list(Women):
+        ls_box_women.insert(0, i)
 
 
 def window3():
