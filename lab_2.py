@@ -64,9 +64,23 @@ def window2():
 
 
 def window3():
+    global A, B
     win3 = Toplevel(root)
     win3.geometry('600x400')
-
+    lbl_A = Label(win3, text='Множина А')
+    lbl_A.grid(row=0, column=0)
+    lbl_B = Label(win3, text='Множина B')
+    lbl_B.grid(row=0, column=1)
+    show_A = Listbox(win3)
+    for i in A:
+        show_A.insert(END, i)
+    show_A.grid(row=1, column=0)
+    show_B = Listbox(win3)
+    for i in B:
+        show_B.insert(END, i)
+    show_B.grid(row=1, column=1)
+    calc_S_btn = Button(win3, text='Обрахувати відношення S')
+    calc_S_btn.grid(row=2, column=0)
 
 def window4():
     win4 = Toplevel(root)
