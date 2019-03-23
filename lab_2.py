@@ -138,9 +138,11 @@ def window2():
 
 
 def window3():
-    global A, B, GRAPH
+    global IMAGE_GRAPH
+    Image_graph()
+    global A, B
     win3 = Toplevel(root)
-    win3.geometry('600x400')
+    win3.geometry('1000x500')
     lbl_A = Label(win3, text='Множина А')
     lbl_A.grid(row=0, column=0)
     lbl_B = Label(win3, text='Множина B')
@@ -153,9 +155,11 @@ def window3():
     for i in B:
         show_B.insert(END, i)
     show_B.grid(row=1, column=1)
+    gr_lbl = Label(win3)
+    gr_lbl.grid(row=0, column=3, rowspan=3)
     calc_S_btn = Button(win3, text='Обрахувати відношення S')
     calc_S_btn.grid(row=2, column=0)
-    # calc_S_btn.bind("<Button-1>", lambda event: gr_lbl.configure(image=PhotoImage(file=r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.png')))
+    calc_S_btn.bind("<Button-1>", lambda event: gr_lbl.configure(image=IMAGE_GRAPH))
     calc_R_btn = Button(win3, text='Обрахувати відношення R')
     calc_R_btn.grid(row=2, column=1)
 
@@ -175,18 +179,23 @@ def window3():
 
 
 def window4():
-    global photo
 
     win4 = Toplevel(root)
     # win4.geometry('600x400')
-    lbl = Label(win4, image=photo)
-    lbl.pack()
+
 
 
 
 
 root = Tk()
 # root.geometry('600x400')
+IMAGE_GRAPH = None
+
+def Image_graph():
+    global IMAGE_GRAPH
+    image = Image.open(r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.png')
+    photo = ImageTk.PhotoImage(image)
+    IMAGE_GRAPH = photo
 
 l1 = Label(root, text="Моя група: ІО -", font=("Arial", 20))
 l1.grid(row=0, sticky="w")
@@ -210,10 +219,5 @@ win4 = Menu(mainMenu, tearoff=0)
 mainMenu.add_cascade(menu=win4, label='Вікно 4')
 win4.add_command(label='Відкрити', command=window4)
 
-image = Image.open(r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.png')
-photo = ImageTk.PhotoImage(image)
-
-lbl = Label(root, image=photo)
-lbl.grid(row=3)
 
 root.mainloop()
