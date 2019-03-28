@@ -3,7 +3,7 @@ from random import randint, sample
 import networkx as nx
 import matplotlib.pyplot as plt
 from PIL import ImageTk, Image
-import graphs
+
 
 
 
@@ -45,15 +45,49 @@ def take_from_women_box(index, ls_list):
 
 
 def create_relation_S(A, B):
-    global M, W
-    a = A
-    b = B
+    global M, W, S
+    a = A.copy()
+    b = B.copy()
     relation = []
-    for i in a:
-        for j in b:
-            if i in W:
-                relation.append((i, j))
-                break
+    for i in range(len(a)):
+        x = a.pop()
+        done = False
+        for k in range(len(b)):
+            if done:
+                continue
+            y = b.pop()
+            if (x in W) and (y in M):
+                relation.append((x, y))
+                done = True
+    S = relation
+    return relation
+
+
+def create_relation_R(A, B):
+    global M, W, S, R
+    a = set()
+    for i in S:
+        a.add(S[0])
+        a.add(S[1])
+    a = set(A) - a
+    b = B.copy()
+    relation = []
+
+    res = []
+
+    for i in range(len(a)):
+        x = a.pop()
+        done = False
+        for k in range(len(b)):
+            if done:
+                continue
+            y = b.pop()
+
+            if (x in W) and (y in M):
+                relation.append((x, y))
+                done = True
+    R = relation
+    return relation
 
 
 def nodes_to_graph(relation):
@@ -64,18 +98,34 @@ def nodes_to_graph(relation):
     return list(res)
 
 
-def graph(win3, label):
-    path = r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.pdf'
-    relation = [('Ольга', 'Іван'), ('Тетяна', 'Світлана'), ('Ольга', 'Петро')]
-    G = nx.DiGraph()
-    G.add_nodes_from(nodes_to_graph(relation))
-    for i in relation:
-        G.add_edge(*i)
-    pos = nx.circular_layout(G)
-    nx.draw(G, pos, with_labels=True)
-    # plt.show()
-    plt.savefig(path)
-    img = ImageTk.PhotoImage(Image.open(path))
+def create_graph(name_of_set: str):
+    global S, R, A, B
+    relation = 0
+    path = 0
+    if name_of_set.lower() == 's':
+        relation = create_relation_S(A, B)
+        path = 's_fig.png'
+        GG = nx.DiGraph()
+        GG.add_nodes_from(nodes_to_graph(relation))
+        for i in relation:
+            GG.add_edge(*i)
+        pos = nx.circular_layout(GG)
+        nx.draw(GG, pos, with_labels=True)
+        # plt.show()
+        plt.savefig(path)
+
+    if name_of_set.lower() == 'r':
+        relation = create_relation_R(A, B)
+        path = 'r_fig.png'
+        G = nx.DiGraph()
+        G.add_nodes_from(nodes_to_graph(relation))
+        for i in relation:
+            G.add_edge(*i)
+        pos = nx.circular_layout(G)
+        nx.draw(G, pos, with_labels=True)
+        # plt.show()
+        plt.savefig(path)
+        plt.close()
 
 
 # ---------------------windows----------------------
@@ -138,9 +188,13 @@ def window2():
 
 
 def window3():
-    global IMAGE_GRAPH
-    Image_graph()
-    global A, B
+    global IMAGE_GRAPH_S
+    global IMAGE_GRAPH_R
+    create_graph('s')
+    create_graph('r')
+    Image_graph_S()
+    Image_graph_R()
+    global A, B, S, R
     win3 = Toplevel(root)
     win3.geometry('1000x500')
     lbl_A = Label(win3, text='Множина А')
@@ -155,54 +209,56 @@ def window3():
     for i in B:
         show_B.insert(END, i)
     show_B.grid(row=1, column=1)
-    gr_lbl = Label(win3)
-    gr_lbl.grid(row=0, column=3, rowspan=3)
+    graph_lbl1 = Label(win3)
+    graph_lbl1.grid(row=0, column=3, rowspan=4)
+    graph_lbl = Label(win3)
+    graph_lbl.grid(row=1, column=4, rowspan=4)
     calc_S_btn = Button(win3, text='Обрахувати відношення S')
     calc_S_btn.grid(row=2, column=0)
-    calc_S_btn.bind("<Button-1>", lambda event: gr_lbl.configure(image=IMAGE_GRAPH))
+    calc_S_btn.bind("<Button-1>", lambda event: graph_lbl1.configure(image=IMAGE_GRAPH_S))
     calc_R_btn = Button(win3, text='Обрахувати відношення R')
     calc_R_btn.grid(row=2, column=1)
-
-    # path = r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.png'
-    # relation = [('Ольга', 'Іван'), ('Тетяна', 'Світлана'), ('Ольга', 'Петро')]
-    # G = nx.DiGraph()
-    # G.add_nodes_from(nodes_to_graph(relation))
-    # for i in relation:
-    #     G.add_edge(*i)
-    # pos = nx.circular_layout(G)
-    # nx.draw(G, pos, with_labels=True)
-    # # plt.show()
-    # plt.savefig(path)
-    # img = ImageTk.PhotoImage(Image.open(path))
-    # panel = Label(win3, image=img)
-    # panel.grid(row=4, column=4)
+    calc_R_btn.bind("<Button-1>", lambda event: graph_lbl.configure(image=IMAGE_GRAPH_R))
 
 
 def window4():
-
     win4 = Toplevel(root)
     # win4.geometry('600x400')
 
 
 
-
-
 root = Tk()
 # root.geometry('600x400')
-IMAGE_GRAPH = None
+IMAGE_GRAPH_S = None
+IMAGE_GRAPH_R = None
 
-def Image_graph():
-    global IMAGE_GRAPH
-    image = Image.open(r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.png')
+
+def Image_graph_S():
+    global IMAGE_GRAPH_S
+    image = Image.open('s_fig.png')
     photo = ImageTk.PhotoImage(image)
-    IMAGE_GRAPH = photo
+    IMAGE_GRAPH_S = photo
 
-l1 = Label(root, text="Моя група: ІО -", font=("Arial", 20))
-l1.grid(row=0, sticky="w")
-l2 = Label(root, text="Мій номер у групі:", font=("Arial", 20))
-l2.grid(row=1, sticky="w")
-l3 = Label(root, text="Мій варіант:", font=("Arial", 20))
-l3.grid(row=2, sticky="W")
+
+def Image_graph_R():
+    global IMAGE_GRAPH_R
+    image = Image.open(r'r_fig.png')
+    photo = ImageTk.PhotoImage(image)
+    IMAGE_GRAPH_R = photo
+
+
+group_lbl = Label(root, text="Моя група: ", font=("Arial", 20))
+group_lbl.grid(row=0, column=0, sticky="w")
+group_lbl_show = Label(root, text='ІВ-82', font=('Arial', 20))
+group_lbl_show.grid(row=0, column=1, sticky='e')
+number_lbl = Label(root, text="Мій номер у групі: ", font=("Arial", 20))
+number_lbl.grid(row=1, column=0, sticky="w")
+number_lbl_show = Label(root, text="3", font=("Arial", 20))
+number_lbl_show.grid(row=1, column=1, sticky="e")
+var_lbl = Label(root, text="Мій варіант: ", font=("Arial", 20))
+var_lbl.grid(row=2, column=0, sticky="W")
+var_lbl_show = Label(root, text="26", font=("Arial", 20))
+var_lbl_show.grid(row=2, column=1, sticky="e")
 
 mainMenu = Menu(root)
 root.config(menu=mainMenu)

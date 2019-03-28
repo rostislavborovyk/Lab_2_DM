@@ -4,6 +4,20 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from PIL import ImageTk, Image
 
+def create_relation_S(A, B):
+    global M, W
+    a = A
+    b = B
+    relation = []
+    for i in range(len(a)):
+        x = a.pop()
+        for k in range(len(b)):
+            y = b.pop()
+            if (x in W) and (y in M):
+                relation.append((x, y))
+                break
+
+    return relation
 
 def nodes_to_graph(relation):
     res = set()
@@ -13,7 +27,9 @@ def nodes_to_graph(relation):
     return list(res)
 
 
-path = r'C:\Users\Ростислав\PycharmProjects\Lab_2_DM\fig.png'
+path = r'C:\Users\Ростислав\Desktop\Py progs\Lab_2_DM_\fig.png'
+M = {"Володимир", "Віктор", "Кирило", "Вадим", "Михайло", "Петро", "Іван", "Олег"}
+W = {"Марія", "Анна", "Анастасія", "Ольга", "Тетяна", "Світлана", "Вікторія", "Оксана"}
 
 
 def graph(path):
@@ -26,5 +42,9 @@ def graph(path):
     nx.draw(G, pos, with_labels=True)
     # plt.show()
     plt.savefig(path)
-    img = ImageTk.PhotoImage(path)
-    return img
+
+
+A = {"Володимир", "Віктор", "Кирило", "Марія", "Анна", "Анастасія", "Ольга"}
+B = {"Михайло", "Петро", "Іван", "Світлана", "Вікторія", "Оксана"}
+
+print(create_relation_S(A, B))
